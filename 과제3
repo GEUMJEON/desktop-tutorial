@@ -1,0 +1,52 @@
+#include <iostream>
+
+class SimpleVector {
+    int* data;
+    size_t size;
+    size_t capacity;
+
+public:
+    SimpleVector() : data(nullptr), size(0), capacity(0) {}
+
+    ~SimpleVector() {
+        delete[] data;
+    }
+
+    void push_back(int value) {
+        if (size == capacity) {
+           
+            size_t newCapacity = (capacity == 0) ? 1 : capacity * 2;
+            int* newData = new int[newCapacity];
+
+            for (size_t i = 0; i < size; ++i) {
+                newData[i] = data[i];
+            }
+
+
+            delete[] data;
+
+            data = newData;
+            capacity = newCapacity;
+        }
+
+        data[size] = value;
+        ++size;
+    }
+
+    void print() const {
+        for (size_t i = 0; i < size; ++i) {
+            std::cout << data[i] << " ";
+        }
+        std::cout << std::endl;
+    }
+};
+
+int main() {
+    SimpleVector vec;
+    vec.push_back(10);
+    vec.push_back(20);
+    vec.push_back(30);
+
+    vec.print();
+    return 0;
+}
